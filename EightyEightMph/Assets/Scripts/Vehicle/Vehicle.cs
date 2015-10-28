@@ -13,12 +13,10 @@ public class Vehicle : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.Translate (Vector3.forward);
-
 		if (isFlying) {
-			Fly ();
+			//Fly ();
 		} else {
-			Land ();
+			//Land ();
 		}
 	}
 
@@ -39,7 +37,7 @@ public class Vehicle : MonoBehaviour {
 		if(transform.position.y < 0)
 		{
 			Vector3 v = transform.position;
-			v.y = 0;
+			v.y = init.y;
 			transform.position = v;
 		}
 	}

@@ -1,28 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class ObjectsGenerator : MonoBehaviour {
 	
 	public Transform objectsRoot;
-	
-	public GameObject moveObjectModel;
-	
+
 	public List<MoveObject> moveObjects;
-	
-	void Awake()
-	{
-		if (moveObjectModel == null)
-		{
-			Debug.Log("ObjectGenerator - moveObjectModel null");
-		}
-	}
-	
+
+	public ResourcesLib resources;
+
 	public MoveObject CreateObject()
 	{
-		GameObject moveObjectGO = Instantiate(moveObjectModel);
+		List<GameObject> list;
+		if(Math.Round(UnityEngine.Random.value) == 0)
+			list = resources.GetList("heavy",1);
+		else
+			list = resources.GetList("light",1);
+		GameObject moveObjectGO = Instantiate(list[UnityEngine.Random.Range(0,list.Count)]) as GameObject; 
 		MoveObject moveObject = moveObjectGO.GetComponent<MoveObject>();
-
 		return moveObject;
 	}
 	

@@ -57,17 +57,14 @@ public class ObjectsControl : MonoBehaviour {
 	
 	public void SetupMoveObject(MoveObject obj)
 	{
-
-
 		obj.offset = new Vector3( (Random.value * (float)roadSize) - ((float)roadSize*0.5f), 0f, 0f);
-		Debug.Log ("Offset : " + obj.offset);
+		//Debug.Log ("Offset : " + obj.offset);
 		// Beacons
 		obj.ConfigBeacons(
 			frontPos,
 			topPos,
 			backPos
 		);
-
 	}
 	
 	public void UpdateObjects(int level, float deltaTime)
@@ -91,6 +88,7 @@ public class ObjectsControl : MonoBehaviour {
 
 	public void GenerateRandomObject()
 	{
+
 		MoveObject obj = objectGenerator.CreateObject();
 
 		moveObjects.Add(obj);
