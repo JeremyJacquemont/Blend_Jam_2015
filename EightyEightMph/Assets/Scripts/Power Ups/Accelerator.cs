@@ -5,6 +5,13 @@ public class Accelerator : BasePowerUps{
 
 	public int speed = 5;
 
+	public Accelerator(Game g):base(g){}
+
+	public Accelerator(Game g, int value) : base(g){
+		this.speed = value;
+	}
+
+	#region implemented abstract members of BasePowerUps
 	public override void OnTriggerEnter(Collider other){
 		if (isTriggering)
 			return;
@@ -18,4 +25,5 @@ public class Accelerator : BasePowerUps{
 			return;
 		v.Accelerate (speed);
 	}
+	#endregion
 }

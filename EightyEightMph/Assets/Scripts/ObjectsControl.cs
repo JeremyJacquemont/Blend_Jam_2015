@@ -16,6 +16,11 @@ public class ObjectsControl : MonoBehaviour {
 
 	public List<MoveObject> moveObjects;
 
+	public List<BaseObstacle> obstacles;
+	public List<BasePowerUps> powerUps;
+
+	public bool isShocking = false;
+
 	// Use this for initialization
 	void Start () {
 		backPos = back.position;
@@ -60,5 +65,12 @@ public class ObjectsControl : MonoBehaviour {
 	public void UpdateObject(MoveObject obj, float deltaTime)
 	{
 		obj.UpdateTime(deltaTime);
+	}
+
+	public void ShockObstacles ()
+	{
+		foreach (BaseObstacle obstacle in obstacles) {
+			obstacle.DownObstacle();
+		}
 	}
 }
