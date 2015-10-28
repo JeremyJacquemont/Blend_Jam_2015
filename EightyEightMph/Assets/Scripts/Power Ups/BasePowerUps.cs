@@ -1,7 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BasePowerUps : MonoBehaviour {
+public abstract class BasePowerUps : MonoBehaviour {
+
+	protected bool isTriggering = false;
+
+	public abstract void OnTriggerEnter (Collider other) ;
+	
+	public void OnTriggerExit(Collider other){
+		isTriggering = false;
+	}
 
 	// Use this for initialization
 	void Start () {

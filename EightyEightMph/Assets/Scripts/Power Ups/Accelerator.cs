@@ -1,29 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SolidObstacle : BaseObstacle {
+public class Accelerator : BasePowerUps{
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+	public int speed = 5;
 
 	public override void OnTriggerEnter(Collider other){
 		if (isTriggering)
 			return;
-
+		
 		isTriggering = true;
 		if (other == null)
 			return;
 		Vehicle v = other.gameObject.GetComponent<Vehicle>();
-
+		
 		if (v == null)
 			return;
-		v.HitSolidObstacle ();
+		v.Accelerate (speed);
 	}
 }
