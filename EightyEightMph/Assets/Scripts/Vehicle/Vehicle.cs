@@ -14,15 +14,27 @@ public class Vehicle : MonoBehaviour {
 		transform.Translate (Vector3.forward);
 	}
 
-	public void HitSolidObstacle(){
-		Debug.Log ("Solid obstacle");
+	public void HitFixedObstacle ()
+	{
+		Debug.Log ("Fixed obstacle");
 	}
 
-	public void HitRetarder(int value){
+	public void HitEffectObstacle (float value)
+	{
 		Debug.Log ("Retarder " + value.ToString());
 	}
 
-	public void HitFailer(float duration){
-		Debug.Log ("Failer " + duration.ToString());
+	public void HitHeavyObstacle (int value)
+	{
+		Debug.Log ("Heavy " + value.ToString());
+	}
+
+	public void HitLightObstacle (int value)
+	{
+		Debug.Log ("Ligth " + value.ToString());
+	}
+
+	public void Accelerate(int value){
+		Debug.Log ("Accelerate " + value);
 	}
 }
