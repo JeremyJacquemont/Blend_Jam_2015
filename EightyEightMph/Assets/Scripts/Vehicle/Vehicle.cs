@@ -50,9 +50,9 @@ public class Vehicle : MonoBehaviour {
 		Debug.Log ("Fixed obstacle");
 	}
 
-	public void HitEffectObstacle (float value)
+	public void HitEffectObstacle (float value, EffectType type)
 	{
-		Debug.Log ("Retarder " + value.ToString());
+		Debug.Log ("Effect " + value.ToString()+ " " + type.ToString());
 	}
 
 	public void HitHeavyObstacle (int value)
