@@ -28,4 +28,8 @@ public class FailerObstacle : BaseObstacle {
 			return;
 		v.HitFailer (duration);
 	}
+
+	public override void DownObstacle(){
+
+	}
 }
