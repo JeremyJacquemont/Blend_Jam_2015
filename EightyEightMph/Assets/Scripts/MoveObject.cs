@@ -23,9 +23,9 @@ public class MoveObject : MonoBehaviour
 
 	public void ConfigBeacons(Vector3 back, Vector3 top, Vector3 front)
 	{
-		this.back = back;
-		this.top = top;
-		this.front = front;
+		this.back = back + offset;
+		this.top = top + offset;
+		this.front = front + offset;
 	}
 
 	// Use this for initialization
@@ -41,25 +41,21 @@ public class MoveObject : MonoBehaviour
 
 		if (time < 1f)
 		{
-			position = Vector3.Lerp(front, top, time);
+			position = Vector3.Lerp(back, top, time);
 		} else if (time > 1f)
 		{
-			position = Vector3.Lerp(top, back, time-1f);
+			position = Vector3.Lerp(top, front, time-1f);
 		}
 
 		// DEBUG
-		if (time > 3f)
-		{
-			time = -1f;
-		}
+//		if (time > 3f)
+//		{
+//			time = -1f;
+//		}
 	}
 
 	public void Update()
 	{
-//#if UNITY_EDITOR
-//		UpdatePosition();
-//#endif
-
 		myTransform.position = position;
 	}
 }

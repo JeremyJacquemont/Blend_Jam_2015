@@ -20,14 +20,18 @@ public class Game : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		timer.SetTimeScale(1f);
+
+		InvokeRepeating("GenerateRandomObject", 5f, 0.5f);
 	}
 	
 	// Update is called once per frame
 	void Update() {
-		UpdatGame();
+		UpdateGame();
+
+		Test();
 	}
 
-	void UpdatGame()
+	void UpdateGame()
 	{
 		timer.UpdateTimer(Time.deltaTime);
 		deltaTime = timer.deltaTime;
@@ -38,5 +42,21 @@ public class Game : MonoBehaviour {
 	public void levelUp()
 	{
 		level += 1;
+	}
+
+
+
+
+	public void Test()
+	{
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			GenerateRandomObject();
+		}
+	}
+
+	public void GenerateRandomObject()
+	{
+		objectsControl.GenerateRandomObject();
 	}
 }

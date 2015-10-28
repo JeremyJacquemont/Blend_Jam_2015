@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class ObjectsControl : MonoBehaviour {
 
+	public ObjectsGenerator objectGenerator;
+
 	public Transform back;
 	public Transform top;
 	public Transform front;
@@ -14,10 +16,16 @@ public class ObjectsControl : MonoBehaviour {
 
 	private float time = 0f;
 
+	public float lastSolidGenerated;
+	public float lastRetarderGenerated;
+	public float lastFailerGenerated;
+
+
 	public List<MoveObject> moveObjects;
 
 	// Use this for initialization
 	void Start () {
+
 		backPos = back.position;
 		topPos = top.position;
 		frontPos = front.position;
@@ -30,17 +38,12 @@ public class ObjectsControl : MonoBehaviour {
 			// Init already present objects
 			foreach (MoveObject obj in moveObjects)
 			{
-				setupMoveObject(obj);
+				SetupMoveObject(obj);
 			}
 		}
 	}
-	
-	// Update is called once per frame
-//	void Update() {
-//		UpdateObjects();
-//	}
 
-	public void setupMoveObject(MoveObject obj)
+	public void SetupMoveObject(MoveObject obj)
 	{
 		obj.front = frontPos;
 		obj.top = topPos;
@@ -51,6 +54,10 @@ public class ObjectsControl : MonoBehaviour {
 	{
 		time += deltaTime;
 
+		// Generate Objects
+
+
+		// Update Objects
 		foreach (MoveObject obj in moveObjects)
 		{
 			UpdateObject(obj, deltaTime);

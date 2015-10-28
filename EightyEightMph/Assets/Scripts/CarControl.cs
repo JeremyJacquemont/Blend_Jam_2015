@@ -20,12 +20,19 @@ public class CarControl : MonoBehaviour {
 	float y;
 	float z;
 
+	// Wheel
+	public Transform wheel;
+	public Vector3 wheelRotation;
+
+
 	// Use this for initialization
 	void Awake () {
 		myTransform = transform;
 		rotation = myTransform.localRotation.eulerAngles;
 		y = myTransform.position.y;
 		z = myTransform.position.z;
+
+		wheelRotation = wheel.localRotation.eulerAngles;
 	}
 
 	// Update is called once per frame
@@ -48,9 +55,10 @@ public class CarControl : MonoBehaviour {
 		position.y = y;
 		position.z = z;
 
-
+		Vector3 rotation = new Vector3(angle, 0f, 0f);
 		myTransform.position = position;
 
-
+		wheelRotation.x = -2f * angle;
+		wheel.localRotation = Quaternion.Euler(wheelRotation);
 	}
 }
