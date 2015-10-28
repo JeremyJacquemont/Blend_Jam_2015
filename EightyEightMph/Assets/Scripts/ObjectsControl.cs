@@ -26,7 +26,12 @@ public class ObjectsControl : MonoBehaviour {
 	
 	
 	public List<MoveObject> moveObjects;
-	
+
+	public List<BaseObstacle> obstacles;
+	public List<BasePowerUps> powerUps;
+
+	public bool isShocking = false;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -91,7 +96,14 @@ public class ObjectsControl : MonoBehaviour {
 		moveObjects.Add(obj);
 
 		SetupMoveObject(obj);
+	}
 
+
+	public void ShockObstacles ()
+	{
+		foreach (BaseObstacle obstacle in obstacles) {
+			obstacle.DownObstacle();
+		}
 
 	}
 }

@@ -46,7 +46,6 @@ public class Game : MonoBehaviour {
 
 
 
-
 	public void Test()
 	{
 		if (Input.GetKeyDown(KeyCode.Space))
@@ -58,5 +57,32 @@ public class Game : MonoBehaviour {
 	public void GenerateRandomObject()
 	{
 		objectsControl.GenerateRandomObject();
+	}
+
+	public void ShockObstacles (float duration)
+	{
+		objectsControl.ShockObstacles ();
+		objectsControl.isShocking = true;
+		Debug.Log ("Start shocking");
+		StartCoroutine(StopShocking(duration));
+	}
+
+	private IEnumerator StopShocking(float duration){
+		yield return new WaitForSeconds(duration);
+		objectsControl.isShocking = false;
+		Debug.Log ("End shocking");
+	}
+
+	public void SlowTime (float duration, float value)
+	{
+		timer.SetTimeScale (value);
+		Debug.Log ("Start slowing");
+		StartCoroutine(StopSlowTime(duration));
+	}
+
+	private IEnumerator StopSlowTime(float duration){
+		yield return new WaitForSeconds(duration);
+		timer.SetTimeScale (1f);
+		Debug.Log ("End shocking");
 	}
 }

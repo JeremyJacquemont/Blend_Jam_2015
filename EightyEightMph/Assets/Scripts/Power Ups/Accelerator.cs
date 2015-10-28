@@ -1,20 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class FailerObstacle : BaseObstacle {
+public class Accelerator : BasePowerUps{
 
-	public float duration = 10;
+	public int speed = 5;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+	public Accelerator(Game g):base(g){}
+
+	public Accelerator(Game g, int value) : base(g){
+		this.speed = value;
 	}
 
+	#region implemented abstract members of BasePowerUps
 	public override void OnTriggerEnter(Collider other){
 		if (isTriggering)
 			return;
@@ -26,10 +23,7 @@ public class FailerObstacle : BaseObstacle {
 		
 		if (v == null)
 			return;
-		v.HitFailer (duration);
+		v.Accelerate (speed);
 	}
-
-	public override void DownObstacle(){
-
-	}
+	#endregion
 }

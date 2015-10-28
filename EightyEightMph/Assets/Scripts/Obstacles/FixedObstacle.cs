@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RetarderObstacle : BaseObstacle {
-
-	public int value = 5;
+public class FixedObstacle : BaseObstacle {
 
 	public override void OnTriggerEnter(Collider other){
 		if (isTriggering)
@@ -16,8 +14,6 @@ public class RetarderObstacle : BaseObstacle {
 		
 		if (v == null)
 			return;
-
-		DownObstacle ();
-		v.HitRetarder (value);
+		v.HitFixedObstacle ();
 	}
 }
