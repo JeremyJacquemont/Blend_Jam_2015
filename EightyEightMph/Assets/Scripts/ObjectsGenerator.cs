@@ -11,13 +11,22 @@ public class ObjectsGenerator : MonoBehaviour {
 
 	public ResourcesLib resources;
 
+	public Game game;
+
 	public MoveObject CreateObject()
 	{
 		List<GameObject> list;
-		if(Math.Round(UnityEngine.Random.value) == 0)
-			list = resources.GetList("heavy",1);
+		int r = (int) Math.Round (UnityEngine.Random.Range (0f, 3f));
+		if(r == 0)
+			list = resources.GetList("heavy", game.level);
+		else if(r == 1)
+			list = resources.GetList("light", game.level);
 		else
-			list = resources.GetList("light",1);
+			list = resources.GetList("fixed", game.level);
+
+		if (list == null || list.Count == 0)
+			return null;
+
 		GameObject moveObjectGO = Instantiate(list[UnityEngine.Random.Range(0,list.Count)]) as GameObject; 
 		MoveObject moveObject = moveObjectGO.GetComponent<MoveObject>();
 		return moveObject;

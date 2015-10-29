@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+<<<<<<< HEAD
 using Parse;
+=======
+using UnityEngine.UI;
+>>>>>>> origin/develop
 
 public class Game : MonoBehaviour {
 
@@ -15,6 +19,8 @@ public class Game : MonoBehaviour {
 	public TimeControl timer;
 	public ObjectsControl objectsControl;
 	public CarControl car;
+
+	public Text vitesseTimer;
 
 	public int level = 1;
 	public LevelInfo levelInfo;
@@ -56,12 +62,9 @@ public class Game : MonoBehaviour {
 
 		timer.SetTimeScale(1f);
 
-//		InvokeRepeating("GenerateRandomObject", 1f, 0.5f / timer.timeScale);
-//		InvokeRepeating("GenerateRandomObject", 0f, 0.5f);
-//		InvokeRepeating("GenerateDecorObject", 0f, 0.5f);
-//		InvokeRepeating("GenerateBonusObject", 0f, .5f);
 
 		score.InitScore();
+
 
 	}
 
@@ -74,6 +77,8 @@ public class Game : MonoBehaviour {
 		}
 
 		InputTest();
+
+		vitesseTimer.text = car.currentSpeed.ToString ();
 	}
 
 	void StartLevel(int levelNumber)
@@ -209,7 +214,7 @@ public class Game : MonoBehaviour {
 	public void GenerateDecorObject()
 	{
 		if (gameStatus == GameStatus.RUNNING) { 
-			objectsControl.GenerateDecorObject(car.transform.position.x);
+			objectsControl.GenerateDecorObject(car.transform.position.x, level);
 		}
 	}
 

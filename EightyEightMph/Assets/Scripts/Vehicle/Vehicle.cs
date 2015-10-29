@@ -6,6 +6,8 @@ public class Vehicle : MonoBehaviour {
 
 	private bool isFlying = false;
 
+	public Game game;
+
 	// Use this for initialization
 	void Start () {
 		init = transform.position;
@@ -42,10 +44,10 @@ public class Vehicle : MonoBehaviour {
 		}
 	}
 
-
 	public void HitFixedObstacle ()
 	{
 		Debug.Log ("Fixed obstacle");
+		game.StopGame ();
 	}
 
 	public void HitEffectObstacle (float value, EffectType type)
@@ -55,16 +57,20 @@ public class Vehicle : MonoBehaviour {
 
 	public void HitHeavyObstacle (int value)
 	{
-		Debug.Log ("Heavy " + value.ToString());
+		game.car.SetSpeed (game.car.currentSpeed - value);
+		if (game.car.currentSpeed < 20)
+			game.car.SetSpeed (20);
 	}
 
 	public void HitLightObstacle (int value)
 	{
-		Debug.Log ("Ligth " + value.ToString());
+		game.car.SetSpeed (game.car.currentSpeed - value);
+		if (game.car.currentSpeed < 20)
+			game.car.SetSpeed (20);
 	}
 
 	public void Accelerate(int value){
-		Debug.Log ("Accelerate " + value);
+		game.car.SetSpeed (game.car.currentSpeed + value);
 	}
 
 	public void Fly (int duration)
