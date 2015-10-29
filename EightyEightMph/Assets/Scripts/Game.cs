@@ -103,12 +103,12 @@ public class Game : MonoBehaviour {
 
 	public void GenerateDecorObject()
 	{
-		objectsControl.GenerateDecorObject();
+		objectsControl.GenerateDecorObject(car.transform.position.x);
 	}
 
 	public void GenerateBonusObject()
 	{
-		objectsControl.GenerateBonusObject();
+		objectsControl.GenerateBonusObject(car.transform.position.x);
 	}
 
 	

@@ -72,7 +72,7 @@ public class ObjectsControl : MonoBehaviour {
 		);
 	}
 
-	public void SetupDecorObject(MoveObject obj)
+	public void SetupDecorObject(MoveObject obj, float carX)
 	{
 		int side = Mathf.Round (Random.value) == 0 ? 1 : - 1;
 
@@ -82,7 +82,8 @@ public class ObjectsControl : MonoBehaviour {
 		obj.ConfigBeacons(
 			frontPos,
 			topPos,
-			backPos
+			backPos,
+			carX
 			);
 	}
 	
@@ -119,23 +120,23 @@ public class ObjectsControl : MonoBehaviour {
 		SetupMoveObject(obj, carX);
 	}
 
-	public void GenerateBonusObject()
+	public void GenerateBonusObject(float carX)
 	{
 		
 		MoveObject obj = objectGenerator.CreateObject("bonus",0);
 		obj.gameObject.GetComponentInChildren<BasePowerUps> ().game = this.gameObject.GetComponentInParent<Game> ();
 		moveObjects.Add(obj);
 		
-		SetupMoveObject(obj);
+		SetupMoveObject(obj, carX);
 	}
 
-	public void GenerateDecorObject()
+	public void GenerateDecorObject(float carX)
 	{
 		MoveObject obj = objectGenerator.CreateObject("decor",1);
 
 		moveObjects.Add(obj);
 		
-		SetupDecorObject(obj);
+		SetupDecorObject(obj, carX);
 	}
 
 
