@@ -14,6 +14,8 @@ public class ResourcesLib : MonoBehaviour {
 
 	public List<GameObject> Level1Decors;
 
+	public List<GameObject> Bonus;
+
 	private Dictionary<string, List<GameObject>> dico;
 
 	void Start(){
@@ -23,7 +25,8 @@ public class ResourcesLib : MonoBehaviour {
 			{"heavy-1", Level1HeavyObstacles},
 			{"fixed-1", Level1FixedObstacles},
 			{"effect-1", Level1EffectObstacles},
-			{"decor-1", Level1Decors}
+			{"decor-1", Level1Decors},
+			{"bonus-0", Bonus}
 		};
 	}
 

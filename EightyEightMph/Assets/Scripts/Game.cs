@@ -21,9 +21,11 @@ public class Game : MonoBehaviour {
 	void Start () {
 		timer.SetTimeScale(1f);
 
-		InvokeRepeating("GenerateRandomObject", 5f, 0.5f);
+		InvokeRepeating("GenerateRandomObject", 0f, 0.5f);
 
-		InvokeRepeating("GenerateDecorObject", 5f, 0.5f);
+		InvokeRepeating("GenerateDecorObject", 0f, 0.5f);
+
+		InvokeRepeating("GenerateBonusObject", 0f, 0.5f);
 	}
 	
 	// Update is called once per frame
@@ -66,6 +68,12 @@ public class Game : MonoBehaviour {
 		objectsControl.GenerateDecorObject();
 	}
 
+	public void GenerateBonusObject()
+	{
+		objectsControl.GenerateBonusObject();
+	}
+
+	
 	public void ShockObstacles (float duration)
 	{
 		objectsControl.ShockObstacles ();

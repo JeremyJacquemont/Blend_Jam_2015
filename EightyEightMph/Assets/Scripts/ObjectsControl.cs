@@ -105,15 +105,29 @@ public class ObjectsControl : MonoBehaviour {
 
 		MoveObject obj = objectGenerator.CreateObject();
 
+		if (isShocking) {
+			obj.gameObject.GetComponentInChildren<BaseObstacle>().DownObstacle();
+		}
+
 		moveObjects.Add(obj);
 
 		SetupMoveObject(obj);
 	}
 
+	public void GenerateBonusObject()
+	{
+		
+		MoveObject obj = objectGenerator.CreateObject("bonus",0);
+		obj.gameObject.GetComponentInChildren<BasePowerUps> ().game = this.gameObject.GetComponentInParent<Game> ();
+		moveObjects.Add(obj);
+		
+		SetupMoveObject(obj);
+	}
+
 	public void GenerateDecorObject()
 	{
-		MoveObject obj = objectGenerator.CreateObject("decor");
-		
+		MoveObject obj = objectGenerator.CreateObject("decor",1);
+
 		moveObjects.Add(obj);
 		
 		SetupDecorObject(obj);
@@ -122,9 +136,11 @@ public class ObjectsControl : MonoBehaviour {
 
 	public void ShockObstacles ()
 	{
-		foreach (BaseObstacle obstacle in obstacles) {
-			obstacle.DownObstacle();
+		foreach (MoveObject obj in moveObjects) {
+			BaseObstacle obs = obj.gameObject.GetComponentInChildren<BaseObstacle>();
+			if(obs != null){
+				obs.DownObstacle();
+			}
 		}
-
 	}
 }

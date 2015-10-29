@@ -23,9 +23,9 @@ public class ObjectsGenerator : MonoBehaviour {
 		return moveObject;
 	}
 
-	public MoveObject CreateObject(String type)
+	public MoveObject CreateObject(String type, int level)
 	{
-		List<GameObject> list = resources.GetList(type,1);
+		List<GameObject> list = resources.GetList(type, level);
 
 		if (list == null)
 			return null;
