@@ -66,6 +66,20 @@ public class ObjectsControl : MonoBehaviour {
 			backPos
 		);
 	}
+
+	public void SetupDecorObject(MoveObject obj)
+	{
+		int side = Mathf.Round (Random.value) == 0 ? 1 : - 1;
+
+		obj.offset = new Vector3( (Random.value * 7f * side) + (7f * side *2), 0f, 0f);
+
+		// Beacons
+		obj.ConfigBeacons(
+			frontPos,
+			topPos,
+			backPos
+			);
+	}
 	
 	public void UpdateObjects(int level, float deltaTime)
 	{
@@ -94,6 +108,15 @@ public class ObjectsControl : MonoBehaviour {
 		moveObjects.Add(obj);
 
 		SetupMoveObject(obj);
+	}
+
+	public void GenerateDecorObject()
+	{
+		MoveObject obj = objectGenerator.CreateObject("decor");
+		
+		moveObjects.Add(obj);
+		
+		SetupDecorObject(obj);
 	}
 
 

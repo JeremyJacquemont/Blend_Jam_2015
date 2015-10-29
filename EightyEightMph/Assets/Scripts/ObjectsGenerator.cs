@@ -22,6 +22,18 @@ public class ObjectsGenerator : MonoBehaviour {
 		MoveObject moveObject = moveObjectGO.GetComponent<MoveObject>();
 		return moveObject;
 	}
+
+	public MoveObject CreateObject(String type)
+	{
+		List<GameObject> list = resources.GetList(type,1);
+
+		if (list == null)
+			return null;
+
+		GameObject moveObjectGO = Instantiate(list[UnityEngine.Random.Range(0,list.Count)]) as GameObject; 
+		MoveObject moveObject = moveObjectGO.GetComponent<MoveObject>();
+		return moveObject;
+	}
 	
 	
 	// Use this for initialization

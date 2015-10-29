@@ -23,7 +23,7 @@ public class ResourcesLib : MonoBehaviour {
 			{"heavy-1", Level1HeavyObstacles},
 			{"fixed-1", Level1FixedObstacles},
 			{"effect-1", Level1EffectObstacles},
-			{"decor-1", Level1EffectObstacles}
+			{"decor-1", Level1Decors}
 		};
 	}
 
