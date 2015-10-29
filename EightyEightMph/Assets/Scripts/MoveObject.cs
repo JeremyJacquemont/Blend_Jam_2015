@@ -48,10 +48,10 @@ public class MoveObject : MonoBehaviour
 		}
 
 		// DEBUG
-//		if (time > 3f)
-//		{
-//			time = -1f;
-//		}
+		if (time > 2.5f)
+		{
+			Destroy(gameObject);
+		}
 	}
 
 	public void Update()
