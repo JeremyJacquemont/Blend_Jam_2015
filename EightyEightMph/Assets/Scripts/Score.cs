@@ -27,7 +27,6 @@ public class Score : MonoBehaviour {
 	public void AddPoints(float points)
 	{
 		score += points;
-		Debug.Log ("score : " + score);
 	}
 
 //	public void RemovePoints(float points)
