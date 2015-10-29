@@ -60,6 +60,7 @@ public class Game : MonoBehaviour {
 
 	public void InitLevel()
 	{
+		Debug.Log ("Game - Init level: " + level);
 		miles = 0f;
 
 		car.SetSpeed(levelInfo.startSpeed);
@@ -72,7 +73,7 @@ public class Game : MonoBehaviour {
 
 		car.UpdateSpeed(timer.deltaTime, levelInfo.accel);
 
-		speed = car.currentSpeed * speedFact;
+		speed = car.currentSpeed * speedFact * 0.01f;
 
 		objectsControl.UpdateObjects(level, deltaTime, speed);
 	}

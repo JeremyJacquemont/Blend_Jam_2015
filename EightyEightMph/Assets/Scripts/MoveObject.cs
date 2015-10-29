@@ -29,9 +29,9 @@ public class MoveObject : MonoBehaviour
 	}
 
 	// Use this for initialization
-	public void UpdateTime(float deltaTime)
+	public void UpdateTime(float deltaTime, float speed)
 	{
-		time += deltaTime;
+		time += deltaTime * speed;
 		UpdatePosition();
 	}
 

@@ -89,7 +89,7 @@ public class ObjectsControl : MonoBehaviour {
 	
 	public void UpdateObjects(int level, float deltaTime, float speed)
 	{
-		time += deltaTime * speed;
+		time += deltaTime;
 		
 		// Generate Objects
 		
@@ -97,13 +97,13 @@ public class ObjectsControl : MonoBehaviour {
 		// Update Objects
 		foreach (MoveObject obj in moveObjects)
 		{
-			UpdateObject(obj, deltaTime);
+			UpdateObject(obj, deltaTime, speed);
 		}
 	}
 	
-	public void UpdateObject(MoveObject obj, float deltaTime)
+	public void UpdateObject(MoveObject obj, float deltaTime, float speed)
 	{
-		obj.UpdateTime(deltaTime);
+		obj.UpdateTime(deltaTime, speed);
 	}
 
 	public void GenerateRandomObject(float carX)
@@ -136,7 +136,7 @@ public class ObjectsControl : MonoBehaviour {
 
 		moveObjects.Add(obj);
 		
-		SetupDecorObject(obj, carX);
+		SetupDecorObject(obj, carX); 
 	}
 
 

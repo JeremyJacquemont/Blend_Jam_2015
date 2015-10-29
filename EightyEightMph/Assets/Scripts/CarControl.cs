@@ -34,6 +34,7 @@ public class CarControl : MonoBehaviour {
 
 	public float currentSpeed = 50f;
 
+	public bool block = false;
 
 	// Use this for initialization
 	void Awake () {
@@ -74,11 +75,18 @@ public class CarControl : MonoBehaviour {
 
 	public void SetSpeed(float speed)
 	{
-		// 
+		currentSpeed = speed;
 	}
 
 	public void UpdateSpeed(float deltaTime, float accel)
 	{
-		currentSpeed += deltaTime * accel;
+		if (!block) {
+			currentSpeed += deltaTime * accel;
+		}
+
+		if (currentSpeed > 90f)
+		{
+			currentSpeed = 90f;
+		}
 	}
 }
