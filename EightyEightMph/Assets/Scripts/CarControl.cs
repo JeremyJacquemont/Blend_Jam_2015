@@ -49,18 +49,13 @@ public class CarControl : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-//		rotation.y = target.localRotation.eulerAngles.y;
-//		myTransform.rotation = Quaternion.Euler(rotation);
-
 		angle = target.localRotation.eulerAngles.z;
 		if (angle > 180f)
 		{
 			angle = (360-angle) * -1f;
 		}
 
-	
-
-		position += Vector3.right * angle * fact * Time.deltaTime;
+		position -= Vector3.right * angle * fact * Time.deltaTime;
 
 		position.x = Mathf.Clamp(position.x, MinX, MaxX);
 		position.y = y;
@@ -69,7 +64,7 @@ public class CarControl : MonoBehaviour {
 		Vector3 rotation = new Vector3(angle, 0f, 0f); 
 		myTransform.position = position;
 
-		wheelRotation.x = -2f * angle;
+		wheelRotation.x = 2f * angle;
 		wheel.localRotation = Quaternion.Euler(wheelRotation);
 	}
 

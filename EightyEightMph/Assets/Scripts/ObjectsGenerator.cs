@@ -30,7 +30,9 @@ public class ObjectsGenerator : MonoBehaviour {
 		if (list == null)
 			return null;
 
-		GameObject moveObjectGO = Instantiate(list[UnityEngine.Random.Range(0,list.Count)]) as GameObject; 
+		GameObject moveObjectGO = Instantiate(list[UnityEngine.Random.Range(0,list.Count)]) as GameObject;
+		moveObjectGO.transform.parent = objectsRoot;
+
 		MoveObject moveObject = moveObjectGO.GetComponent<MoveObject>();
 		return moveObject;
 	}

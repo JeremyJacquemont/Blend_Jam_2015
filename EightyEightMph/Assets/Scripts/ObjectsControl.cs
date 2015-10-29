@@ -25,6 +25,7 @@ public class ObjectsControl : MonoBehaviour {
 	public float lastFailerGenerated;
 
 	public List<MoveObject> moveObjects;
+	public List<MoveObject> toRemoveMoveObjects;
 
 	public List<BaseObstacle> obstacles;
 	public List<BasePowerUps> powerUps;
@@ -49,6 +50,7 @@ public class ObjectsControl : MonoBehaviour {
 				SetupMoveObject(obj, 0f);
 			}
 		}
+		toRemoveMoveObjects = new List<MoveObject>();
 
 		// Road Size
 		roadSize = (Mathf.Abs(limitLeft) + Mathf.Abs(limitRight));
@@ -98,7 +100,16 @@ public class ObjectsControl : MonoBehaviour {
 		foreach (MoveObject obj in moveObjects)
 		{
 			UpdateObject(obj, deltaTime, speed);
+
+			if (obj.time > 2f)
+			{	
+				moveObjects[moveObjects.IndexOf(obj)] = null;
+				Destroy(obj.gameObject);
+			}
 		}
+
+		moveObjects.RemoveAll((o)=>o == null);
+
 	}
 	
 	public void UpdateObject(MoveObject obj, float deltaTime, float speed)
