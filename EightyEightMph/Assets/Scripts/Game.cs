@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Parse;
 using UnityEngine.UI;
 
 public class Game : MonoBehaviour {
@@ -30,6 +31,12 @@ public class Game : MonoBehaviour {
 	public GoogleAnalyticsV3 googleAnalytics;
 
 	public List<ConfigLevel> configLevels;
+
+	public Score score;
+	public AudioSource audio;
+
+	public AudioClip nextLevelClip;
+	public AudioClip crashClip;
 
 	// Process
 	float deltaTime = 0f;
@@ -61,14 +68,18 @@ public class Game : MonoBehaviour {
 		googleAnalytics.LogEvent(new EventHitBuilder()
 		                          .SetEventCategory("Informations")
 		                          .SetEventAction("Start Game"));
+
+		score.InitScore();
+
+
 	}
 
 	// Update is called once per frame
 	void Update() {
-
+		 
 		if (gameStatus == GameStatus.RUNNING) {
 			UpdateGame();
-			UpdateDistance();
+			UpdateDistance(); 
 		}
 
 		InputTest();
@@ -80,6 +91,7 @@ public class Game : MonoBehaviour {
 	{
 		level = levelNumber;
 
+
 		levelInfo.ConfigureByLevel(level);
 
 		InitLevel();
@@ -87,17 +99,36 @@ public class Game : MonoBehaviour {
 		googleAnalytics.LogEvent(new EventHitBuilder()
 		                         .SetEventCategory("Informations")
 		                         .SetEventAction("Start Level"));
+		audio.clip = nextLevelClip;
+		audio.Play();
 	}
 
 	public void StopGame()
 	{
 		if (gameStatus == GameStatus.RUNNING) {
 			gameStatus = GameStatus.STOP;
-		}
+
+
+			ParseObject gameScore = new ParseObject("Score");
+			gameScore["Score"] = score.score;
+			gameScore.SaveAsync ().ContinueWith (t => {
+				Debug.Log(gameScore.ObjectId);
+
+				score.id = gameScore.ObjectId;
+
+			});
+
+			Application.LoadLevelAsync("endScene");
+
+			audio.clip = crashClip;
+			audio.Play();
+
+
 
 		googleAnalytics.LogEvent(new EventHitBuilder()
 		                         .SetEventCategory("Informations")
 		                         .SetEventAction("Stop Game"));
+
 	}
 
 	public void InitLevel()
@@ -140,6 +171,8 @@ public class Game : MonoBehaviour {
 		speed = car.currentSpeed * speedFact * 0.01f;
 
 		objectsControl.UpdateObjects(level, deltaTime, speed);
+
+		score.ProcessScoreBySpeed(car.currentSpeed, deltaTime);
 	}
 
 	void UpdateDistance() 
