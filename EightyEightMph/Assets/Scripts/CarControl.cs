@@ -72,6 +72,11 @@ public class CarControl : MonoBehaviour {
 		wheel.localRotation = Quaternion.Euler(wheelRotation);
 	}
 
+	public void SetSpeed(float speed)
+	{
+		// 
+	}
+
 	public void UpdateSpeed(float deltaTime, float accel)
 	{
 		currentSpeed += deltaTime * accel;

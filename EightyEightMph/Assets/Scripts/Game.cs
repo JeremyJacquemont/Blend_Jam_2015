@@ -61,6 +61,8 @@ public class Game : MonoBehaviour {
 	public void InitLevel()
 	{
 		miles = 0f;
+
+		car.SetSpeed(levelInfo.startSpeed);
 	}
 
 	void UpdateGame()
