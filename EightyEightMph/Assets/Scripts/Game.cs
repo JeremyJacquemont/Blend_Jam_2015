@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+<<<<<<< HEAD
+using Parse;
+=======
+using UnityEngine.UI;
+>>>>>>> origin/develop
 
 public class Game : MonoBehaviour {
 
@@ -15,7 +20,11 @@ public class Game : MonoBehaviour {
 	public ObjectsControl objectsControl;
 	public CarControl car;
 
+<<<<<<< HEAD
 	public Cardboard cardboard;
+=======
+	public Text vitesseTimer;
+>>>>>>> 84f660bbe005e849336030449a89765037a2b67b
 
 	public int level = 1;
 	public LevelInfo levelInfo;
@@ -28,6 +37,7 @@ public class Game : MonoBehaviour {
 
 	public List<ConfigLevel> configLevels;
 
+<<<<<<< HEAD
 	public ConfigLevel current;
 
 	private float timeFromLastCreation;
@@ -35,6 +45,13 @@ public class Game : MonoBehaviour {
 	float multiplicator = 1f;
 
 	public bool isInvincible = false;
+=======
+	public Score score;
+	public AudioSource audio;
+
+	public AudioClip nextLevelClip;
+	public AudioClip crashClip;
+>>>>>>> 84f660bbe005e849336030449a89765037a2b67b
 
 	// Process
 	float deltaTime = 0f;
@@ -59,26 +76,26 @@ public class Game : MonoBehaviour {
 
 		timer.SetTimeScale(1f);
 
-		/*InvokeRepeating("GenerateRandomObject", 1f, 0.5f / timer.timeScale);
-		InvokeRepeating("GenerateDecorObject", 0f, 0.5f / timer.timeScale);
-		InvokeRepeating("GenerateBonusObject", 0f, 0.5f / timer.timeScale);*/
 
-		InvokeRepeating("GeneratePlayableObjects", 0f, 0.5f);
+		score.InitScore();
+
 	}
 	
 
 	// Update is called once per frame
 	void Update() {
-
+		 
 		if (gameStatus == GameStatus.RUNNING) {
 			UpdateGame();
 			UpdateDistance();
 
-			if(cardboard.Triggered && car.currentSpeed >= 88)
+			if(cardboard.Triggered && car.currentSpeed >= 88 ||  car.currentSpeed >= 88)
 				StartLevel(level+1);
 		}
 
 		InputTest();
+
+		vitesseTimer.text = car.currentSpeed.ToString ();
 	}
 
 	void GeneratePlayableObjects(){
@@ -132,16 +149,39 @@ public class Game : MonoBehaviour {
 			multiplicator *= 0.5f;
 		}
 		level = levelNumber;
+
 		levelInfo.ConfigureByLevel(level);
 
 		InitLevel();
+
+		audio.clip = nextLevelClip;
+		audio.Play();
 	}
 
 	public void StopGame()
 	{
 		if (gameStatus == GameStatus.RUNNING) {
 			gameStatus = GameStatus.STOP;
+
+
+			ParseObject gameScore = new ParseObject("Score");
+			gameScore["Score"] = score.score;
+			gameScore.SaveAsync ().ContinueWith (t => {
+				Debug.Log(gameScore.ObjectId);
+
+				score.id = gameScore.ObjectId;
+
+			});
+
+			Application.LoadLevelAsync("endScene");
+
+			audio.clip = crashClip;
+			audio.Play();
+
+
 		}
+
+
 	}
 
 	public void InitLevel()
@@ -203,6 +243,8 @@ public class Game : MonoBehaviour {
 		speed = car.currentSpeed * speedFact * 0.01f;
 
 		objectsControl.UpdateObjects(level, deltaTime, speed);
+
+		score.ProcessScoreBySpeed(car.currentSpeed, deltaTime);
 	}
 
 	void UpdateDistance() 
