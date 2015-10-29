@@ -46,7 +46,7 @@ public class Game : MonoBehaviour {
 
 	public AudioClip nextLevelClip;
 	public AudioClip crashClip;
-
+	
 	// Process
 	float deltaTime = 0f;
 
@@ -59,6 +59,7 @@ public class Game : MonoBehaviour {
 		if (timer == null) {
 			Debug.Log("NO TIMER !!!");
 		}
+		cardboard.VRModeEnabled = GlobalParameters.isVREnabled;
 	}
 
 	// Use this for initialization

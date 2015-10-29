@@ -3,13 +3,19 @@ using System.Collections;
 
 public class StartGame : MonoBehaviour {
 
-	public Cardboard cartboard;
+	public Cardboard cardboard;
 
 	private bool isStarting;
+
+	void Start(){
+		cardboard.VRModeEnabled = GlobalParameters.isVREnabled;
+	}
+
 	void Update() {
-		if (cartboard.Triggered && !isStarting) {
+		if (cardboard.Triggered && !isStarting) {
 			isStarting = true;
-			Application.LoadLevelAsync ("gameScene");
+			Application.LoadLevel ("gameScene");
+			Destroy (cardboard);
 		}
 	}
 }
