@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-<<<<<<< HEAD
 using Parse;
-=======
 using UnityEngine.UI;
->>>>>>> origin/develop
+
 
 public class Game : MonoBehaviour {
 
@@ -19,12 +17,11 @@ public class Game : MonoBehaviour {
 	public TimeControl timer;
 	public ObjectsControl objectsControl;
 	public CarControl car;
-
-<<<<<<< HEAD
+	
 	public Cardboard cardboard;
-=======
+
 	public Text vitesseTimer;
->>>>>>> 84f660bbe005e849336030449a89765037a2b67b
+
 
 	public int level = 1;
 	public LevelInfo levelInfo;
@@ -37,7 +34,6 @@ public class Game : MonoBehaviour {
 
 	public List<ConfigLevel> configLevels;
 
-<<<<<<< HEAD
 	public ConfigLevel current;
 
 	private float timeFromLastCreation;
@@ -45,13 +41,12 @@ public class Game : MonoBehaviour {
 	float multiplicator = 1f;
 
 	public bool isInvincible = false;
-=======
+
 	public Score score;
 	public AudioSource audio;
 
 	public AudioClip nextLevelClip;
 	public AudioClip crashClip;
->>>>>>> 84f660bbe005e849336030449a89765037a2b67b
 
 	// Process
 	float deltaTime = 0f;
