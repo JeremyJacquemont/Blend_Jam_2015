@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Parse;
@@ -16,11 +16,10 @@ public class Game : MonoBehaviour {
 	public TimeControl timer;
 	public ObjectsControl objectsControl;
 	public CarControl car;
-	
+
+//	public Text vitesseTimer;
+
 	public Cardboard cardboard;
-
-	public Text vitesseTimer;
-
 
 	public int level = 1;
 	public LevelInfo levelInfo;
@@ -42,7 +41,6 @@ public class Game : MonoBehaviour {
 	float multiplicator = 1f;
 
 	public bool isInvincible = false;
-
 	public Score score;
 	public AudioSource audio;
 
@@ -61,8 +59,6 @@ public class Game : MonoBehaviour {
 		if (timer == null) {
 			Debug.Log("NO TIMER !!!");
 		}
-
-		Debug.Log ("Config: " + configLevels.Count);
 	}
 
 	// Use this for initialization
@@ -98,14 +94,13 @@ public class Game : MonoBehaviour {
 
 		InputTest();
 
-		vitesseTimer.text = car.currentSpeed.ToString ();
+//		vitesseTimer.text = car.currentSpeed.ToString ();
 	}
 
 	void GeneratePlayableObjects(){
 		GenerateObstacle ();
 
 		int r = (int) Random.Range (0, 100);
-		Debug.Log (multiplicator.ToString());
 
 		if (r < (current.Accelerator [palier] + current.ShockWave [palier] + current.SlowMotion [palier] + current.Invincibility [palier]) * multiplicator) {
 			if (car.currentSpeed < 45) {
@@ -170,26 +165,21 @@ public class Game : MonoBehaviour {
 			gameStatus = GameStatus.STOP;
 
 
-			ParseObject gameScore = new ParseObject("Score");
-			gameScore["Score"] = score.score;
+			ParseObject gameScore = new ParseObject ("Score");
+			gameScore ["Score"] = score.score;
 			gameScore.SaveAsync ().ContinueWith (t => {
-				Debug.Log(gameScore.ObjectId);
-
 				score.id = gameScore.ObjectId;
 
 			});
-
-			Application.LoadLevelAsync("endScene");
-
+			Application.LoadLevel ("endScene");
 			audio.clip = crashClip;
-			audio.Play();
+			audio.Play ();
 
+			googleAnalytics.LogEvent (new EventHitBuilder ()
+		                         .SetEventCategory ("Informations")
+		                         .SetEventAction ("Stop Game"));
 
-
-		googleAnalytics.LogEvent(new EventHitBuilder()
-		                         .SetEventCategory("Informations")
-		                         .SetEventAction("Stop Game"));
-
+		}
 	}
 
 	public void InitLevel()
