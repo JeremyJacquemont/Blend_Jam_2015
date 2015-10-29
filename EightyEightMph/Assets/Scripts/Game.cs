@@ -25,7 +25,7 @@ public class Game : MonoBehaviour {
 
 		InvokeRepeating("GenerateDecorObject", 0f, 0.5f);
 
-		InvokeRepeating("GenerateBonusObject", 0f, 0.5f);
+		InvokeRepeating("GenerateBonusObject", 0f, .5f);
 	}
 	
 	// Update is called once per frame

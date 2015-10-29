@@ -14,9 +14,9 @@ public class Vehicle : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (isFlying) {
-			//Fly ();
+			Fly ();
 		} else {
-			//Land ();
+			Land ();
 		}
 	}
 
@@ -32,9 +32,9 @@ public class Vehicle : MonoBehaviour {
 	}
 
 	private void Land(){
-		if(transform.position.y > 0)
+		if(transform.position.y > init.y)
 			transform.Translate(- Vector3.up * Time.deltaTime * 5);
-		if(transform.position.y < 0)
+		if(transform.position.y < init.y)
 		{
 			Vector3 v = transform.position;
 			v.y = init.y;
