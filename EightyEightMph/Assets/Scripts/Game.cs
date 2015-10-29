@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Game : MonoBehaviour {
 
@@ -19,6 +20,12 @@ public class Game : MonoBehaviour {
 
 	public float speedFact = 1f;
 
+	public Transform sun;
+	public Material sky;
+	public Transform roadRoot;
+
+	public List<ConfigLevel> configLevels;
+
 	// Process
 	float deltaTime = 0f;
 
@@ -31,6 +38,8 @@ public class Game : MonoBehaviour {
 		if (timer == null) {
 			Debug.Log("NO TIMER !!!");
 		}
+
+		Debug.Log ("Config: " + configLevels.Count);
 	}
 
 	// Use this for initialization
@@ -78,7 +87,29 @@ public class Game : MonoBehaviour {
 		Debug.Log ("Game - Init level: " + level);
 		miles = 0f;
 
+		car.InitPosition();
 		car.SetSpeed(levelInfo.startSpeed);
+
+
+		ConfigLevel config = configLevels[(level-1)];
+
+		// Sun
+		sun.rotation = config.sun.transform.rotation;
+
+		// Sky
+		sky.CopyPropertiesFromMaterial(config.skybox);
+
+		// Road
+		Transform roadChild = roadRoot.GetChild(0);
+		roadRoot.DetachChildren();
+		Destroy(roadChild.gameObject);
+
+		GameObject newRoad = Instantiate(config.floor);
+		newRoad.transform.parent = roadRoot;
+
+		// Car
+		car.MinX = config.minX;
+		car.MaxX = config.maxX;
 	}
 
 	void UpdateGame()
@@ -93,7 +124,7 @@ public class Game : MonoBehaviour {
 		objectsControl.UpdateObjects(level, deltaTime, speed);
 	}
 
-	void UpdateDistance()
+	void UpdateDistance() 
 	{
 		miles = car.currentSpeed * timer.deltaTime;
 	}
@@ -115,6 +146,21 @@ public class Game : MonoBehaviour {
 			{
 				gameStatus = GameStatus.RUNNING;
 			}
+		}
+
+		if (Input.GetKeyDown(KeyCode.Keypad1))
+		{
+			StartLevel(1);
+		}
+
+		if (Input.GetKeyDown(KeyCode.Keypad2))
+		{
+			StartLevel(2); 
+		}
+
+		if (Input.GetKeyDown(KeyCode.Keypad3))
+		{
+			StartLevel(3);
 		}
 	}
 
