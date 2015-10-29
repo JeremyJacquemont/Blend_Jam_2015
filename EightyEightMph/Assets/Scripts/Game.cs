@@ -27,6 +27,8 @@ public class Game : MonoBehaviour {
 	public Material sky;
 	public Transform roadRoot;
 
+	public GoogleAnalyticsV3 googleAnalytics;
+
 	public List<ConfigLevel> configLevels;
 
 	// Process
@@ -55,6 +57,10 @@ public class Game : MonoBehaviour {
 		//InvokeRepeating("GenerateRandomObject", 1f, 0.5f / timer.timeScale);
 		//InvokeRepeating("GenerateDecorObject", 0f, 0.5f);
 		InvokeRepeating("GenerateBonusObject", 0f, .5f);
+
+		googleAnalytics.LogEvent(new EventHitBuilder()
+		                          .SetEventCategory("Informations")
+		                          .SetEventAction("Start Game"));
 	}
 
 	// Update is called once per frame
@@ -77,6 +83,10 @@ public class Game : MonoBehaviour {
 		levelInfo.ConfigureByLevel(level);
 
 		InitLevel();
+
+		googleAnalytics.LogEvent(new EventHitBuilder()
+		                         .SetEventCategory("Informations")
+		                         .SetEventAction("Start Level"));
 	}
 
 	public void StopGame()
@@ -84,6 +94,10 @@ public class Game : MonoBehaviour {
 		if (gameStatus == GameStatus.RUNNING) {
 			gameStatus = GameStatus.STOP;
 		}
+
+		googleAnalytics.LogEvent(new EventHitBuilder()
+		                         .SetEventCategory("Informations")
+		                         .SetEventAction("Stop Game"));
 	}
 
 	public void InitLevel()
