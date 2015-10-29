@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Parse;
 using UnityEngine.UI;
 
-
 public class Game : MonoBehaviour {
 
 	public enum GameStatus {
@@ -31,6 +30,8 @@ public class Game : MonoBehaviour {
 	public Transform sun;
 	public Material sky;
 	public Transform roadRoot;
+
+	public GoogleAnalyticsV3 googleAnalytics;
 
 	public List<ConfigLevel> configLevels;
 
@@ -71,6 +72,13 @@ public class Game : MonoBehaviour {
 
 		timer.SetTimeScale(1f);
 
+		//InvokeRepeating("GenerateRandomObject", 1f, 0.5f / timer.timeScale);
+		//InvokeRepeating("GenerateDecorObject", 0f, 0.5f);
+		InvokeRepeating("GenerateBonusObject", 0f, .5f);
+
+		googleAnalytics.LogEvent(new EventHitBuilder()
+		                          .SetEventCategory("Informations")
+		                          .SetEventAction("Start Game"));
 
 		score.InitScore();
 
@@ -149,6 +157,9 @@ public class Game : MonoBehaviour {
 
 		InitLevel();
 
+		googleAnalytics.LogEvent(new EventHitBuilder()
+		                         .SetEventCategory("Informations")
+		                         .SetEventAction("Start Level"));
 		audio.clip = nextLevelClip;
 		audio.Play();
 	}
@@ -174,8 +185,10 @@ public class Game : MonoBehaviour {
 			audio.Play();
 
 
-		}
 
+		googleAnalytics.LogEvent(new EventHitBuilder()
+		                         .SetEventCategory("Informations")
+		                         .SetEventAction("Stop Game"));
 
 	}
 

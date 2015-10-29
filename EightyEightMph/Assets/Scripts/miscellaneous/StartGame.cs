@@ -2,11 +2,9 @@
 using System.Collections;
 
 public class StartGame : MonoBehaviour {
-
-	public Cardboard cardboard;
-
+	
 	void Update() {
-		if (cardboard.TapIsTrigger) 
+		if (Cardboard.SDK.TapIsTrigger) 
 			Application.LoadLevelAsync ("gameScene");
 	}
 }
