@@ -61,7 +61,7 @@ public class ObjectsControl : MonoBehaviour {
 
 		float offset = (Random.value * (float)roadSize) - ((float)roadSize*0.5f);
 
-		obj.offset = new Vector3( offset, 0f, 0f);
+		obj.offset = new Vector3( offset, 0.25f, 0f);
 //		Debug.Log ("Offset : " + obj.offset);
 
 		

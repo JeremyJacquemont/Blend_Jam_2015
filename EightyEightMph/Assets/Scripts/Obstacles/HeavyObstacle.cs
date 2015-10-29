@@ -15,7 +15,7 @@ public class HeavyObstacle : BaseObstacle {
 			return;
 		Vehicle v = other.gameObject.GetComponent<Vehicle>();
 		
-		if (v == null)
+		if (v == null || v.isInvinsible)
 			return;
 
 		v.HitHeavyObstacle (value);

@@ -32,7 +32,7 @@ public class EffectObstacle : BaseObstacle {
 			return;
 		Vehicle v = other.gameObject.GetComponent<Vehicle>();
 		
-		if (v == null)
+		if (v == null || v.isInvinsible)
 			return;
 		v.HitEffectObstacle (duration, type);
 	}

@@ -4,7 +4,7 @@ using System.Collections;
 public class Vehicle : MonoBehaviour {
 	Vector3 init;
 
-	private bool isFlying = false;
+	public bool isInvinsible = false;
 
 	public Game game;
 
@@ -15,33 +15,7 @@ public class Vehicle : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (isFlying) {
-			Fly ();
-		} else {
-			Land ();
-		}
-	}
 
-	private void Fly(){
-		if(transform.position.y < 10)
-			transform.Translate(Vector3.up * Time.deltaTime * 5);
-		if(transform.position.y > 10)
-		{
-			Vector3 v = transform.position;
-			v.y = 10;
-			transform.position = v;
-		}
-	}
-
-	private void Land(){
-		if(transform.position.y > init.y)
-			transform.Translate(- Vector3.up * Time.deltaTime * 5);
-		if(transform.position.y < init.y)
-		{
-			Vector3 v = transform.position;
-			v.y = init.y;
-			transform.position = v;
-		}
 	}
 
 	public void HitFixedObstacle ()
@@ -75,14 +49,13 @@ public class Vehicle : MonoBehaviour {
 
 	public void Fly (int duration)
 	{
-		Debug.Log ("Fly " + duration.ToString());
-		isFlying = true;
+		game.isInvincible = true;
 		StartCoroutine(StopFlying(duration));
 	}
 
 	private IEnumerator StopFlying(float duration){
 		yield return new WaitForSeconds(duration);
-		isFlying = false;
+		game.isInvincible = false;
 		Debug.Log ("End Flying");
 	}
 }
