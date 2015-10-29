@@ -6,24 +6,33 @@ public class CarControl : MonoBehaviour {
 
 	Transform myTransform;
 
+	// Cardboard Cam
 	public Transform target;
 
+	// Info vehicule
+	public Vector3 position;
+	// Position du vehicule
+	float y;
+	float z;
+
+	// Rotation
 	public Vector3 rotation;
 	public float angle;
 
-	public Vector3 position;
-
-	public float MaxX = 5.5f;
-	public float MinX = -5.5f;
+	public float MaxX = 66666666f;
+	public float MinX = -666666666f;
 
 	public float fact = 1f;
-
-	float y;
-	float z;
 
 	// Wheel
 	public Transform wheel;
 	public Vector3 wheelRotation;
+
+	// Speed
+	float minSpeed = 20f;
+	float maxSpeed = 90f;
+
+	public float currentSpeed = 50f;
 
 
 	// Use this for initialization
@@ -42,7 +51,7 @@ public class CarControl : MonoBehaviour {
 //		rotation.y = target.localRotation.eulerAngles.y;
 //		myTransform.rotation = Quaternion.Euler(rotation);
 
-		angle = target.localRotation.eulerAngles.y;
+		angle = target.localRotation.eulerAngles.z;
 		if (angle > 180f)
 		{
 			angle = (360-angle) * -1f;
@@ -56,10 +65,15 @@ public class CarControl : MonoBehaviour {
 		position.y = y;
 		position.z = z;
 
-		Vector3 rotation = new Vector3(angle, 0f, 0f);
+		Vector3 rotation = new Vector3(angle, 0f, 0f); 
 		myTransform.position = position;
 
 		wheelRotation.x = -2f * angle;
 		wheel.localRotation = Quaternion.Euler(wheelRotation);
+	}
+
+	public void UpdateSpeed(float deltaTime, float accel)
+	{
+		currentSpeed += deltaTime * accel;
 	}
 }

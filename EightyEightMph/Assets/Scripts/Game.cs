@@ -5,11 +5,21 @@ public class Game : MonoBehaviour {
 
 	public TimeControl timer;
 	public ObjectsControl objectsControl;
+	public CarControl car;
 
 	public int level = 1;
+	public LevelInfo levelInfo;
+
+	public float speedFact = 1f;
 
 	// Process
 	float deltaTime = 0f;
+
+	// Vitesse de défilement
+	public float speed = 0f;
+
+	public float miles = 0f;
+
 
 	void Awake() {
 		if (timer == null) {
@@ -21,14 +31,30 @@ public class Game : MonoBehaviour {
 	void Start () {
 		timer.SetTimeScale(1f);
 
-		InvokeRepeating("GenerateRandomObject", 5f, 0.5f);
+		InvokeRepeating("GenerateRandomObject", 1f, 0.5f / timer.timeScale);
 	}
-	
+
 	// Update is called once per frame
 	void Update() {
 		UpdateGame();
 
+		UpdateDistance();
+
 		Test();
+	}
+
+	void StartLevel(int levelNumber)
+	{
+		level = levelNumber;
+
+		levelInfo.ConfigureByLevel(level);
+
+		InitLevel();
+	}
+
+	public void InitLevel()
+	{
+		miles = 0f;
 	}
 
 	void UpdateGame()
@@ -36,12 +62,22 @@ public class Game : MonoBehaviour {
 		timer.UpdateTimer(Time.deltaTime);
 		deltaTime = timer.deltaTime;
 
-		objectsControl.UpdateObjects(level, deltaTime);
+		car.UpdateSpeed(timer.deltaTime, levelInfo.accel);
+
+		speed = car.currentSpeed * speedFact;
+
+		objectsControl.UpdateObjects(level, deltaTime, speed);
+	}
+
+	void UpdateDistance()
+	{
+		miles = car.currentSpeed * timer.deltaTime;
 	}
 
 	public void levelUp()
 	{
 		level += 1;
+		StartLevel(level);
 	}
 
 
@@ -56,7 +92,7 @@ public class Game : MonoBehaviour {
 
 	public void GenerateRandomObject()
 	{
-		objectsControl.GenerateRandomObject();
+		objectsControl.GenerateRandomObject(car.transform.position.x);
 	}
 
 	public void ShockObstacles (float duration)

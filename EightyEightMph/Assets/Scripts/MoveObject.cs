@@ -21,11 +21,11 @@ public class MoveObject : MonoBehaviour
 		myTransform = transform; 
 	}
 
-	public void ConfigBeacons(Vector3 back, Vector3 top, Vector3 front)
+	public void ConfigBeacons(Vector3 back, Vector3 top, Vector3 front, float carX)
 	{
-		this.back = back + offset;
-		this.top = top + offset;
-		this.front = front + offset;
+		this.back = back + offset + Vector3.right * carX;
+		this.top = top + offset + Vector3.right * carX;
+		this.front = front + offset + Vector3.right * carX;
 	}
 
 	// Use this for initialization

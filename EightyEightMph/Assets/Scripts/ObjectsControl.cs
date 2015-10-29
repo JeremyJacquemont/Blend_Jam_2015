@@ -14,8 +14,8 @@ public class ObjectsControl : MonoBehaviour {
 	private Vector3 topPos;
 	private Vector3 frontPos;
 
-	public float limitLeft = -7f;
-	public float limitRight = 7f;
+	public float limitLeft = -10f;
+	public float limitRight = 10f;
 	private float roadSize;
 	
 	private float time = 0f;
@@ -23,8 +23,7 @@ public class ObjectsControl : MonoBehaviour {
 	public float lastSolidGenerated;
 	public float lastRetarderGenerated;
 	public float lastFailerGenerated;
-	
-	
+
 	public List<MoveObject> moveObjects;
 
 	public List<BaseObstacle> obstacles;
@@ -47,7 +46,7 @@ public class ObjectsControl : MonoBehaviour {
 			// Init already present objects
 			foreach (MoveObject obj in moveObjects)
 			{
-				SetupMoveObject(obj);
+				SetupMoveObject(obj, 0f);
 			}
 		}
 
@@ -55,24 +54,26 @@ public class ObjectsControl : MonoBehaviour {
 		roadSize = (Mathf.Abs(limitLeft) + Mathf.Abs(limitRight));
 	}
 	
-	public void SetupMoveObject(MoveObject obj)
+	public void SetupMoveObject(MoveObject obj, float carX)
 	{
 
+		float offset = (Random.value * (float)roadSize) - ((float)roadSize*0.5f);
 
-		obj.offset = new Vector3( (Random.value * (float)roadSize) - ((float)roadSize*0.5f), 0f, 0f);
-		Debug.Log ("Offset : " + obj.offset);
+		obj.offset = new Vector3( offset, 0f, 0f);
+//		Debug.Log ("Offset : " + obj.offset);
 		// Beacons
 		obj.ConfigBeacons(
 			frontPos,
 			topPos,
-			backPos
+			backPos,
+			carX
 		);
 
 	}
 	
-	public void UpdateObjects(int level, float deltaTime)
+	public void UpdateObjects(int level, float deltaTime, float speed)
 	{
-		time += deltaTime;
+		time += deltaTime * speed;
 		
 		// Generate Objects
 		
@@ -89,13 +90,13 @@ public class ObjectsControl : MonoBehaviour {
 		obj.UpdateTime(deltaTime);
 	}
 
-	public void GenerateRandomObject()
+	public void GenerateRandomObject(float carX)
 	{
 		MoveObject obj = objectGenerator.CreateObject();
 
 		moveObjects.Add(obj);
 
-		SetupMoveObject(obj);
+		SetupMoveObject(obj, carX);
 	}
 
 
