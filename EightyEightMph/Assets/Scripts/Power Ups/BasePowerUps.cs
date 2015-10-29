@@ -3,7 +3,7 @@ using System.Collections;
 
 public abstract class BasePowerUps : MonoBehaviour {
 
-	protected Game game;
+	public Game game;
 
 	protected bool isTriggering = false;
 

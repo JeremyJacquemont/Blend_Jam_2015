@@ -61,6 +61,8 @@ public class ObjectsControl : MonoBehaviour {
 
 		obj.offset = new Vector3( offset, 0f, 0f);
 //		Debug.Log ("Offset : " + obj.offset);
+
+		
 		// Beacons
 		obj.ConfigBeacons(
 			frontPos,
@@ -68,7 +70,20 @@ public class ObjectsControl : MonoBehaviour {
 			backPos,
 			carX
 		);
+	}
 
+	public void SetupDecorObject(MoveObject obj)
+	{
+		int side = Mathf.Round (Random.value) == 0 ? 1 : - 1;
+
+		obj.offset = new Vector3( (Random.value * 7f * side) + (7f * side *2), 0f, 0f);
+
+		// Beacons
+		obj.ConfigBeacons(
+			frontPos,
+			topPos,
+			backPos
+			);
 	}
 	
 	public void UpdateObjects(int level, float deltaTime, float speed)
@@ -92,19 +107,45 @@ public class ObjectsControl : MonoBehaviour {
 
 	public void GenerateRandomObject(float carX)
 	{
+
 		MoveObject obj = objectGenerator.CreateObject();
+
+		if (isShocking) {
+			obj.gameObject.GetComponentInChildren<BaseObstacle>().DownObstacle();
+		}
 
 		moveObjects.Add(obj);
 
 		SetupMoveObject(obj, carX);
 	}
 
+	public void GenerateBonusObject()
+	{
+		
+		MoveObject obj = objectGenerator.CreateObject("bonus",0);
+		obj.gameObject.GetComponentInChildren<BasePowerUps> ().game = this.gameObject.GetComponentInParent<Game> ();
+		moveObjects.Add(obj);
+		
+		SetupMoveObject(obj);
+	}
+
+	public void GenerateDecorObject()
+	{
+		MoveObject obj = objectGenerator.CreateObject("decor",1);
+
+		moveObjects.Add(obj);
+		
+		SetupDecorObject(obj);
+	}
+
 
 	public void ShockObstacles ()
 	{
-		foreach (BaseObstacle obstacle in obstacles) {
-			obstacle.DownObstacle();
+		foreach (MoveObject obj in moveObjects) {
+			BaseObstacle obs = obj.gameObject.GetComponentInChildren<BaseObstacle>();
+			if(obs != null){
+				obs.DownObstacle();
+			}
 		}
-
 	}
 }
