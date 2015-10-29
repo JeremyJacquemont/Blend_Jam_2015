@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class Game : MonoBehaviour {
 
@@ -14,6 +15,8 @@ public class Game : MonoBehaviour {
 	public TimeControl timer;
 	public ObjectsControl objectsControl;
 	public CarControl car;
+
+	public Text vitesseTimer;
 
 	public int level = 1;
 	public LevelInfo levelInfo;
@@ -63,6 +66,8 @@ public class Game : MonoBehaviour {
 		}
 
 		InputTest();
+
+		vitesseTimer.text = car.currentSpeed.ToString ();
 	}
 
 	void StartLevel(int levelNumber)
