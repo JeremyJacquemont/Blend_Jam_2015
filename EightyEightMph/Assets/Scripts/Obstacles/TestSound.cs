@@ -9,6 +9,8 @@ public class TestSound : MonoBehaviour {
 	public SoundObstacle target;
 
 	void Update () {
-		target.SetVolume (distance);
+		if (Cardboard.SDK.Triggered) {
+			Debug.Log("ok");
+		}
 	}
 }
