@@ -15,7 +15,7 @@ public class LightObstacle : BaseObstacle {
 			return;
 		Vehicle v = other.gameObject.GetComponent<Vehicle>();
 		
-		if (v == null)
+		if (v == null || v.isInvinsible)
 			return;
 
 		DownObstacle ();

@@ -14,6 +14,10 @@ public abstract class BaseObstacle : MonoBehaviour {
 	}
 	
 	public virtual void DownObstacle(){
-		this.transform.RotateAround (rotationPoint.position, Vector3.left, -90f);
+		if(rotationPoint != null)
+			this.transform.RotateAround (rotationPoint.position, Vector3.left, -90f);
+		else {
+			this.transform.RotateAround (this.transform.position, Vector3.left, -90f);
+		}
 	}
 }

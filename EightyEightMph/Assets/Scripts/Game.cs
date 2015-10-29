@@ -17,7 +17,11 @@ public class Game : MonoBehaviour {
 	public ObjectsControl objectsControl;
 	public CarControl car;
 
+<<<<<<< HEAD
+	public Cardboard cardboard;
+=======
 	public Text vitesseTimer;
+>>>>>>> 84f660bbe005e849336030449a89765037a2b67b
 
 	public int level = 1;
 	public LevelInfo levelInfo;
@@ -32,11 +36,21 @@ public class Game : MonoBehaviour {
 
 	public List<ConfigLevel> configLevels;
 
+<<<<<<< HEAD
+	public ConfigLevel current;
+
+	private float timeFromLastCreation;
+	int palier = 0;
+	float multiplicator = 1f;
+
+	public bool isInvincible = false;
+=======
 	public Score score;
 	public AudioSource audio;
 
 	public AudioClip nextLevelClip;
 	public AudioClip crashClip;
+>>>>>>> 84f660bbe005e849336030449a89765037a2b67b
 
 	// Process
 	float deltaTime = 0f;
@@ -56,7 +70,7 @@ public class Game : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+		StartLevel (1);
 		gameStatus = GameStatus.RUNNING;
 
 		timer.SetTimeScale(1f);
@@ -71,15 +85,18 @@ public class Game : MonoBehaviour {
 
 		score.InitScore();
 
-
 	}
+	
 
 	// Update is called once per frame
 	void Update() {
 		 
 		if (gameStatus == GameStatus.RUNNING) {
 			UpdateGame();
-			UpdateDistance(); 
+			UpdateDistance();
+
+			if(cardboard.Triggered && car.currentSpeed >= 88 ||  car.currentSpeed >= 88)
+				StartLevel(level+1);
 		}
 
 		InputTest();
@@ -87,10 +104,57 @@ public class Game : MonoBehaviour {
 		vitesseTimer.text = car.currentSpeed.ToString ();
 	}
 
+	void GeneratePlayableObjects(){
+		GenerateObstacle ();
+
+		int r = (int) Random.Range (0, 100);
+		Debug.Log (multiplicator.ToString());
+
+		if (r < (current.Accelerator [palier] + current.ShockWave [palier] + current.SlowMotion [palier] + current.Invincibility [palier]) * multiplicator) {
+			if (car.currentSpeed < 45) {
+				palier = 0;
+			}
+			else if(car.currentSpeed < 65) {
+				palier = 1;
+			}
+			else if(car.currentSpeed < 80) {
+				palier = 2;
+			}
+			else if(car.currentSpeed < 90) {
+				palier = 3;
+			}
+			GenerateBonus ();
+		}
+	}
+
+	public void GenerateObstacle()
+	{
+		if (gameStatus == GameStatus.RUNNING) { 
+			objectsControl.GenerateRandomObject(car.transform.position.x);
+		}
+	}
+	
+	public void GenerateDecorObject()
+	{
+		if (gameStatus == GameStatus.RUNNING) { 
+			objectsControl.GenerateDecorObject(car.transform.position.x, level);
+		}
+	}
+	
+	public void GenerateBonus()
+	{
+		if (gameStatus == GameStatus.RUNNING) { 
+			objectsControl.GenerateBonusObject(car.transform.position.x);
+		}
+	}
+
 	void StartLevel(int levelNumber)
 	{
+		if (levelNumber > 3) {
+			levelNumber = 1;
+			multiplicator *= 0.5f;
+		}
 		level = levelNumber;
-
 
 		levelInfo.ConfigureByLevel(level);
 
@@ -140,31 +204,50 @@ public class Game : MonoBehaviour {
 		car.SetSpeed(levelInfo.startSpeed);
 
 
-		ConfigLevel config = configLevels[(level-1)];
+		current = configLevels[(level-1)];
 
 		// Sun
-		sun.rotation = config.sun.transform.rotation;
+			sun.rotation = current.sun.transform.rotation;
 
 		// Sky
-		sky.CopyPropertiesFromMaterial(config.skybox);
+			sky.CopyPropertiesFromMaterial(current.skybox);
 
 		// Road
 		Transform roadChild = roadRoot.GetChild(0);
 		roadRoot.DetachChildren();
 		Destroy(roadChild.gameObject);
 
-		GameObject newRoad = Instantiate(config.floor);
+			GameObject newRoad = Instantiate(current.floor);
 		newRoad.transform.parent = roadRoot;
 
 		// Car
-		car.MinX = config.minX;
-		car.MaxX = config.maxX;
+			car.MinX = current.minX;
+			car.MaxX = current.maxX;
 	}
 
 	void UpdateGame()
 	{
+		if (car.currentSpeed < 45) {
+			palier = 0;
+		}
+		else if(car.currentSpeed < 65) {
+			palier = 1;
+		}
+		else if(car.currentSpeed < 80) {
+			palier = 2;
+		}
+		else if(car.currentSpeed < 90) {
+			palier = 3;
+		}
+
 		timer.UpdateTimer(Time.deltaTime);
 		deltaTime = timer.deltaTime;
+
+		timeFromLastCreation += deltaTime;
+		if (timeFromLastCreation > (current.Obstacles [palier] * multiplicator)) {
+			timeFromLastCreation = 0;
+			GeneratePlayableObjects();
+		}
 
 		car.UpdateSpeed(timer.deltaTime, levelInfo.accel);
 
@@ -214,28 +297,6 @@ public class Game : MonoBehaviour {
 			StartLevel(3);
 		}
 	}
-
-	public void GenerateRandomObject()
-	{
-		if (gameStatus == GameStatus.RUNNING) { 
-			objectsControl.GenerateRandomObject(car.transform.position.x);
-		}
-	}
-
-	public void GenerateDecorObject()
-	{
-		if (gameStatus == GameStatus.RUNNING) { 
-			objectsControl.GenerateDecorObject(car.transform.position.x, level);
-		}
-	}
-
-	public void GenerateBonusObject()
-	{
-		if (gameStatus == GameStatus.RUNNING) { 
-			objectsControl.GenerateBonusObject(car.transform.position.x);
-		}
-	}
-
 	
 	public void ShockObstacles (float duration)
 	{
@@ -262,6 +323,17 @@ public class Game : MonoBehaviour {
 		yield return new WaitForSeconds(duration);
 		timer.SetTimeScale (1f);
 		Debug.Log ("End shocking");
+	}
+
+	public void setInvincible(float duration){
+		Debug.Log ("Start invincibe");
+
+		isInvincible = true;
+	}
+
+	private IEnumerator StopInvincible(float duration){
+		yield return new WaitForSeconds(duration);
+		Debug.Log ("End invincible");
 	}
 
 
