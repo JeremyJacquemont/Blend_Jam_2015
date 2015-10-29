@@ -44,14 +44,14 @@
 	<uses-permission android:name="android.permission.VIBRATE" />
 	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
 	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-	<permission android:protectionLevel="signature" android:name="com.parse.parseunitypushsample.permission.C2D_MESSAGE" />
-	<uses-permission android:name="com.parse.parseunitypushsample.permission.C2D_MESSAGE" />
+	<permission android:protectionLevel="signature" android:name="com.playerjamer.permission.C2D_MESSAGE" />
+	<uses-permission android:name="com.playerjamer.permission.C2D_MESSAGE" />
 
     <receiver android:name="com.parse.ParsePushBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
       <intent-filter>
         <action android:name="com.google.android.c2dm.intent.RECEIVE" />
         <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-        <category android:name="com.parse.parseunitypushsample" />
+        <category android:name="com.playerjamer.eightyeightmph" />
       </intent-filter>
     </receiver>
 

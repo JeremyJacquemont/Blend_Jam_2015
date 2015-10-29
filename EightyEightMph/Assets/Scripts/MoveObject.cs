@@ -29,9 +29,9 @@ public class MoveObject : MonoBehaviour
 	}
 
 	// Use this for initialization
-	public void UpdateTime(float deltaTime)
+	public void UpdateTime(float deltaTime, float speed)
 	{
-		time += deltaTime;
+		time += deltaTime * speed;
 		UpdatePosition();
 	}
 
@@ -48,10 +48,10 @@ public class MoveObject : MonoBehaviour
 		}
 
 		// DEBUG
-//		if (time > 3f)
-//		{
-//			time = -1f;
-//		}
+		if (time > 2.5f)
+		{
+			Destroy(gameObject);
+		}
 	}
 
 	public void Update()

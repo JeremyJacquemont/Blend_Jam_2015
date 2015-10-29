@@ -3,6 +3,13 @@ using System.Collections;
 
 public class Game : MonoBehaviour {
 
+	public enum GameStatus {
+		STOP,
+		RUNNING
+	}
+
+	public GameStatus gameStatus;
+
 	public TimeControl timer;
 	public ObjectsControl objectsControl;
 	public CarControl car;
@@ -20,7 +27,6 @@ public class Game : MonoBehaviour {
 
 	public float miles = 0f;
 
-
 	void Awake() {
 		if (timer == null) {
 			Debug.Log("NO TIMER !!!");
@@ -29,24 +35,26 @@ public class Game : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+		gameStatus = GameStatus.RUNNING;
+
 		timer.SetTimeScale(1f);
 
 		InvokeRepeating("GenerateRandomObject", 1f, 0.5f / timer.timeScale);
-
 		InvokeRepeating("GenerateRandomObject", 0f, 0.5f);
-
 		InvokeRepeating("GenerateDecorObject", 0f, 0.5f);
-
 		InvokeRepeating("GenerateBonusObject", 0f, .5f);
 	}
 
 	// Update is called once per frame
 	void Update() {
-		UpdateGame();
 
-		UpdateDistance();
+		if (gameStatus == GameStatus.RUNNING) {
+			UpdateGame();
+			UpdateDistance();
+		}
 
-		Test();
+		InputTest();
 	}
 
 	void StartLevel(int levelNumber)
@@ -58,8 +66,16 @@ public class Game : MonoBehaviour {
 		InitLevel();
 	}
 
+	public void StopGame()
+	{
+		if (gameStatus == GameStatus.RUNNING) {
+			gameStatus = GameStatus.STOP;
+		}
+	}
+
 	public void InitLevel()
 	{
+		Debug.Log ("Game - Init level: " + level);
 		miles = 0f;
 
 		car.SetSpeed(levelInfo.startSpeed);
@@ -72,7 +88,7 @@ public class Game : MonoBehaviour {
 
 		car.UpdateSpeed(timer.deltaTime, levelInfo.accel);
 
-		speed = car.currentSpeed * speedFact;
+		speed = car.currentSpeed * speedFact * 0.01f;
 
 		objectsControl.UpdateObjects(level, deltaTime, speed);
 	}
@@ -90,27 +106,37 @@ public class Game : MonoBehaviour {
 
 
 
-	public void Test()
+	public void InputTest()
 	{
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			GenerateRandomObject();
+//			GenerateRandomObject();
+			if (gameStatus == GameStatus.STOP) 
+			{
+				gameStatus = GameStatus.RUNNING;
+			}
 		}
 	}
 
 	public void GenerateRandomObject()
 	{
-		objectsControl.GenerateRandomObject(car.transform.position.x);
+		if (gameStatus == GameStatus.RUNNING) { 
+			objectsControl.GenerateRandomObject(car.transform.position.x);
+		}
 	}
 
 	public void GenerateDecorObject()
 	{
-		objectsControl.GenerateDecorObject(car.transform.position.x);
+		if (gameStatus == GameStatus.RUNNING) { 
+			objectsControl.GenerateDecorObject(car.transform.position.x);
+		}
 	}
 
 	public void GenerateBonusObject()
 	{
-		objectsControl.GenerateBonusObject(car.transform.position.x);
+		if (gameStatus == GameStatus.RUNNING) { 
+			objectsControl.GenerateBonusObject(car.transform.position.x);
+		}
 	}
 
 	
@@ -140,4 +166,7 @@ public class Game : MonoBehaviour {
 		timer.SetTimeScale (1f);
 		Debug.Log ("End shocking");
 	}
+
+
+
 }
