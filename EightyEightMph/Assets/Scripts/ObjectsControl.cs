@@ -121,6 +121,8 @@ public class ObjectsControl : MonoBehaviour {
 	{
 
 		MoveObject obj = objectGenerator.CreateObject();
+		if (obj == null)
+			return;
 
 		if (isShocking) {
 			obj.gameObject.GetComponentInChildren<BaseObstacle>().DownObstacle();
@@ -133,17 +135,21 @@ public class ObjectsControl : MonoBehaviour {
 
 	public void GenerateBonusObject(float carX)
 	{
-		
 		MoveObject obj = objectGenerator.CreateObject("bonus",0);
+		if (obj == null)
+			return;
+
 		obj.gameObject.GetComponentInChildren<BasePowerUps> ().game = this.gameObject.GetComponentInParent<Game> ();
 		moveObjects.Add(obj);
 		
 		SetupMoveObject(obj, carX);
 	}
 
-	public void GenerateDecorObject(float carX)
+	public void GenerateDecorObject(float carX,int level)
 	{
-		MoveObject obj = objectGenerator.CreateObject("decor",1);
+		MoveObject obj = objectGenerator.CreateObject("decor",level);
+		if (obj == null)
+			return;
 
 		moveObjects.Add(obj);
 		
